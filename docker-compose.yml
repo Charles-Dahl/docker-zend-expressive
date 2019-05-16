@@ -9,15 +9,37 @@ services:
             - MYSQL_DATABASE
             - MYSQL_USER
             - MYSQL_PASSWORD
+    composer:
+        image: composer:1.8.5
+        volumes:
+            - .:/var/www/html
+            - vendor:/var/www/html/vendor
+        working_dir: /var/www/html
+        command: install --ignore-platform-reqs
+    # migrate:
+    #     build:
+    #         context: .
+    #         dockerfile: ./.docker/migrate/Dockerfile
+    #     volumes:
+    #         - .:/var/www/html
+    #         - vendor:/var/www/html/vendor
+    #     working_dir: /var/www/html
+    #     command: php vendor/bin/doctrine orm:schema-tool:update --force
+    #     depends_on:
+    #         - database
     web:
         build:
             context: .
-            dockerfile: ./Dockerfile
+            dockerfile: ./.docker/web/Dockerfile
         ports:
             - 80:80
         volumes:
-            - ./src:/var/www/html/
+            - .:/var/www/html
+            - vendor:/var/www/html/vendor
         environment:
             - APACHE_DOCUMENT_ROOT
         depends_on:
             - database
+            - composer
+volumes:
+    vendor:

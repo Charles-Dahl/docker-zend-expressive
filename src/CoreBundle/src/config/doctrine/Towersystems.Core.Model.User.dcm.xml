@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+    <mapped-superclass
+        name="Towersystems\Core\Model\User"
+        extends="Towersystems\User\Model\User"
+        table="towersystems_user" 
+        repository-class='ResourceBundle\Repository\EntityRepository'
+    >
+        <field name="dbName" column="db_name" type="string" nullable="true"/>
+        <field name="dbUsername" column="db_username" type="string" nullable="true"/>
+        <field name="dbPassword" column="db_password" type="string" nullable="true"/>
+        <field name="setupState" column="setup_state" type="string" />
+        
+        <field name="token" column="last_talink_token" type="text" nullable="true" />
+        <field name="lastJWTToken" column="last_jwt_token" type="text" nullable="true" />
+
+        <attribute-overrides>
+            <attribute-override name="password">
+                <field nullable="true" />
+            </attribute-override>
+        </attribute-overrides>
+
+    </mapped-superclass>
+</doctrine-mapping>
+
+
